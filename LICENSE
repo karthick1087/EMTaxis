@@ -1,28 +1,45 @@
-MIT License
+EMTaxis Research License
+========================
 
 Copyright (c) 2026 EMTaxis contributors
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+of this software, model weights, and associated documentation files
+(the "Software"), to use, copy, modify, and share the Software **for academic
+and non-commercial research purposes only**, subject to the following conditions:
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+1. Research use only
+   The Software may be used solely for non-commercial research, education, and
+   evaluation. Commercial use, including use in paid services, clinical products,
+   diagnostics, or revenue-generating applications, is not permitted without a
+   separate written agreement.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+2. Attribution
+   Any publication, presentation, or public distribution that uses the Software
+   or results derived from it must give appropriate credit to EMTaxis and include
+   a link to the source repository when available.
 
----
+3. Redistribution
+   Redistribution of the Software (modified or unmodified) is allowed for
+   research purposes only, provided this license text is retained and the
+   research-only restriction is not removed.
 
-Third-party data notes (not covered by this license):
+4. No clinical or diagnostic warranty
+   The Software is a research tool only. It is not a medical device and must not
+   be used as the sole basis for clinical diagnosis, treatment decisions, or
+   patient care.
+
+5. No warranty
+   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+   IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+   FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+   AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+   LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+   SOFTWARE.
+
+Third-party data notes
+----------------------
 - DepMap / CCLE expression used for model training: follow Broad DepMap data-use terms.
 - MSigDB gene sets used for panel construction: follow Broad / UCSD MSigDB license terms.
-- Model weights in results/*.pkl are redistributed for research use with this tool.
+These data resources are not licensed under this file; their original terms apply.

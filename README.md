@@ -14,7 +14,7 @@ Local web app + trained model. Upload a gene-expression CSV and get:
 ## Quick start
 
 ```bash
-git clone https://github.com/karthick1087/EMTaxis.git
+git clone https://github.com/<YOUR_USER>/EMTaxis.git
 cd EMTaxis
 
 python3 -m venv .venv
@@ -120,13 +120,17 @@ For publication-style external checks with experimental E/M labels, use the rese
 
 ---
 
-## Citation / data terms
+## License (research only)
 
-- **DepMap / CCLE** expression (training): Broad DepMap data-use policy.  
+EMTaxis is released for **academic / non-commercial research use only**.  
+See [LICENSE](LICENSE).
+
+It is **not** a clinical or diagnostic product.
+
+- **DepMap / CCLE** (training data): Broad DepMap data-use policy.  
 - **MSigDB** gene sets: Broad / UCSD MSigDB license.  
-- Tool code: MIT (see `LICENSE`).
 
-If you use EMTaxis in a paper, cite the DepMap and MSigDB resources and this repository.
+If you use EMTaxis in a paper, cite DepMap, MSigDB, and this repository.
 
 ---
 
@@ -148,4 +152,4 @@ python -c "import joblib; joblib.load('results/best_model.pkl'); print('OK')"
 
 ## License
 
-MIT — see [LICENSE](LICENSE).
+Research use only — see [LICENSE](LICENSE).
