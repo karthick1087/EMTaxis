@@ -320,13 +320,16 @@ class EMTEngine:
             if cls in conf_by:
                 conf_by[cls].append(float(s))
         data = [conf_by[c] if conf_by[c] else [0.0] for c in order]
-        bp = axes[1].boxplot(
-            data,
-            labels=order,
+        # matplotlib ≥3.9 uses tick_labels; older versions used labels
+        box_kw = dict(
             patch_artist=True,
             widths=0.5,
             medianprops=dict(color="#0f172a", linewidth=1.5),
         )
+        try:
+            bp = axes[1].boxplot(data, tick_labels=order, **box_kw)
+        except TypeError:
+            bp = axes[1].boxplot(data, labels=order, **box_kw)
         for patch, c in zip(bp["boxes"], colors):
             patch.set_facecolor(c)
             patch.set_alpha(0.45)
