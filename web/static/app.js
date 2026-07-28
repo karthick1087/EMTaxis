@@ -14,7 +14,6 @@
   let selectedFile = null;
   let lastResult = null;
   let resultId = null;
-  let pendingDemo = null;
 
   function setStatus(msg, type = "info") {
     statusEl.textContent = msg;
@@ -42,29 +41,14 @@
     dropzone.classList.remove("drag");
     if (e.dataTransfer.files && e.dataTransfer.files[0]) {
       selectedFile = e.dataTransfer.files[0];
-      pendingDemo = null;
       fileName.textContent = selectedFile.name;
     }
   });
   fileInput.addEventListener("change", () => {
     if (fileInput.files && fileInput.files[0]) {
       selectedFile = fileInput.files[0];
-      pendingDemo = null;
       fileName.textContent = selectedFile.name;
     }
-  });
-
-  document.querySelectorAll("[data-demo]").forEach((btn) => {
-    btn.addEventListener("click", () => {
-      pendingDemo = btn.getAttribute("data-demo");
-      selectedFile = null;
-      fileInput.value = "";
-      fileName.textContent =
-        pendingDemo === "train"
-          ? "Demo: X_train_for_app.csv"
-          : "Demo: test_depmap_for_app.csv";
-      runPredict();
-    });
   });
 
   btnPredict.addEventListener("click", runPredict);
@@ -74,8 +58,8 @@
   });
 
   async function runPredict() {
-    if (!selectedFile && !pendingDemo) {
-      setStatus("Upload a CSV or choose a demo.", "err");
+    if (!selectedFile) {
+      setStatus("Upload a CSV file first.", "err");
       return;
     }
     clearStatus();
@@ -84,8 +68,7 @@
 
     const fd = new FormData();
     fd.append("data_type", dataType());
-    if (pendingDemo) fd.append("demo", pendingDemo);
-    else if (selectedFile) fd.append("file", selectedFile);
+    fd.append("file", selectedFile);
 
     try {
       const res = await fetch("/api/predict", { method: "POST", body: fd });

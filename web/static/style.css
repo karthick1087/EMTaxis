@@ -278,14 +278,6 @@ a:hover { text-decoration: underline; }
 }
 .btn-ghost:hover { color: var(--indigo-b); background: #eef2ff; }
 
-.demo-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 8px;
-  margin-top: 12px;
-}
-.demo-row .btn { width: 100%; font-size: 0.82rem; padding: 9px 8px; }
-
 /* ── KPI strip ───────────────────────────────── */
 .kpi-grid {
   display: grid;

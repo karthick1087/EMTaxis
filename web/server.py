@@ -50,35 +50,18 @@ def index():
     return render_template("index.html")
 
 
-@app.route("/api/demo/<name>")
-def demo_info(name: str):
-    demos = {
-        "train": {"file": "X_train_for_app.csv", "label": "Training matrix demo"},
-        "depmap": {"file": "test_depmap_for_app.csv", "label": "DepMap holdout demo"},
-    }
-    if name not in demos:
-        return jsonify({"error": "Unknown demo"}), 404
-    return jsonify(demos[name])
-
-
 @app.route("/api/predict", methods=["POST"])
 def predict():
     try:
         data_type = request.form.get("data_type", "log₂(TPM + 1)")
-        demo = request.form.get("demo", "").strip()
-        root = ROOT.parent
 
-        if demo == "train":
-            path = root / "X_train_for_app.csv"
-        elif demo == "depmap":
-            path = root / "test_depmap_for_app.csv"
-        elif "file" in request.files and request.files["file"].filename:
+        if "file" in request.files and request.files["file"].filename:
             f = request.files["file"]
             uid = uuid.uuid4().hex[:10]
             path = UPLOADS / f"{uid}_{f.filename}"
             f.save(path)
         else:
-            return jsonify({"error": "Please upload a CSV or choose a demo."}), 400
+            return jsonify({"error": "Please upload a CSV file."}), 400
 
         payload = engine.predict_file(path, data_type)
         sid = uuid.uuid4().hex
