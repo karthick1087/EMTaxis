@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>EMTaxis Classifier</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">
+        <div>
+          <h1>EMTaxis</h1>
+          <p>Epithelial–mesenchymal axis classifier</p>
+        </div>
+      </div>
+      <nav class="nav-links">
+        <a href="#analyze" class="active">Analyze</a>
+        <a href="#results">Results</a>
+        <a href="#explore">Explore</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="page" id="analyze">
+    <div class="page-header">
+      <h2>Expression analysis</h2>
+      <p class="state-words">
+        Upload bulk RNA-seq (genes × samples). Each sample is classified as
+        <b class="epi">epithelial</b>,
+        <b class="tra">hybrid</b>, or
+        <b class="mes">mesenchymal</b>
+        using a multi-GMT consensus epithelial/mesenchymal program panel
+        (MSigDB 2023.2 — Hallmark, Foroutan, Hollern, Sarrio, Kohn, Jechlinger, Reactome, WikiPathways).
+      </p>
+    </div>
+
+    <div class="grid-main">
+      <!-- Left: input -->
+      <aside class="stack">
+        <section class="card">
+          <div class="card-hd">
+            <h3>Input data</h3>
+          </div>
+          <div class="card-bd">
+            <div class="field">
+              <label>Expression matrix</label>
+              <div class="dropzone" id="dropzone">
+                <strong>Drop CSV here</strong>
+                <span>or click to browse · genes as rows, samples as columns</span>
+                <div class="fname" id="fileName"></div>
+              </div>
+              <input type="file" id="fileInput" accept=".csv,text/csv" />
+            </div>
+
+            <div class="field">
+              <label>Expression scale</label>
+              <div class="scale-opts">
+                <label><input type="radio" name="data_type" value="log₂(TPM + 1)" checked /> log₂(TPM + 1) — training scale</label>
+                <label><input type="radio" name="data_type" value="TPM (no log)" /> TPM (not log-transformed)</label>
+                <label><input type="radio" name="data_type" value="Raw counts" /> Raw counts → CPM → log₂(CPM+1)</label>
+              </div>
+              <div class="hint">
+                Prefer log₂(TPM+1). Raw counts use all genes in the file as the library
+                size (CPM ≠ TPM; no gene-length correction).
+              </div>
+            </div>
+
+            <button class="btn btn-primary" id="btnPredict" type="button">
+              <span class="spinner"></span>
+              <span class="btn-label">Run prediction</span>
+            </button>
+
+            <div class="demo-row">
+              <button class="btn btn-secondary" type="button" data-demo="train">Demo: train set</button>
+              <button class="btn btn-secondary" type="button" data-demo="depmap">Demo: DepMap</button>
+            </div>
+
+            <div class="status" id="status"></div>
+          </div>
+        </section>
+
+        <section class="card">
+          <div class="card-hd"><h3>Format requirements</h3></div>
+          <div class="card-bd" style="font-size:0.88rem;color:var(--muted);line-height:1.55">
+            <ul style="margin:0;padding-left:18px">
+              <li>First column: HGNC gene symbols</li>
+              <li>Remaining columns: samples</li>
+              <li>Consensus E/M genes from all MSigDB EMT GMTs (support ≥ 2)</li>
+              <li>States: 2D high/low rule (epithelial / hybrid / mesenchymal)</li>
+            </ul>
+          </div>
+        </section>
+      </aside>
+
+      <!-- Right: dashboard + results -->
+      <section class="stack">
+        <div class="kpi-grid" id="kpiGrid">
+          <div class="kpi"><div class="k">Samples</div><div class="v" id="kSamples">—</div><div class="s" id="kConv">awaiting input</div></div>
+          <div class="kpi"><div class="k">Genes mapped</div><div class="v" id="kGenes">—</div><div class="s" id="kMap">coverage</div></div>
+          <div class="kpi epi"><div class="k">Epithelial</div><div class="v" id="kEpi">—</div><div class="s" id="kEpiP">%</div></div>
+          <div class="kpi tra"><div class="k">Hybrid</div><div class="v" id="kTra">—</div><div class="s" id="kTraP">%</div></div>
+          <div class="kpi mes"><div class="k">Mesenchymal</div><div class="v" id="kMes">—</div><div class="s" id="kMesP">%</div></div>
+          <div class="kpi"><div class="k">Mean confidence</div><div class="v" id="kConf">—</div><div class="s">across samples</div></div>
+        </div>
+
+        <section class="card" id="results">
+          <div class="card-hd">
+            <h3>Cohort overview</h3>
+          </div>
+          <div class="card-bd">
+            <div class="img-box" id="cohortBox">
+              <div class="placeholder">Run a prediction to see state distribution and confidence plots.</div>
+            </div>
+          </div>
+        </section>
+
+        <section class="card">
+          <div class="card-hd">
+            <h3>Sample results</h3>
+            <button class="btn btn-ghost" id="btnDownload" type="button" disabled>Download CSV</button>
+          </div>
+          <div class="card-bd">
+            <div class="table-wrap">
+              <table class="results" id="resultsTable">
+                <thead>
+                  <tr>
+                    <th>Sample</th>
+                    <th>State</th>
+                    <th>E_z</th>
+                    <th>M_z</th>
+                    <th>EMT axis S</th>
+                    <th>Confidence</th>
+                    <th>P(epithelial)</th>
+                    <th>P(hybrid)</th>
+                    <th>P(mesenchymal)</th>
+                  </tr>
+                </thead>
+                <tbody id="resultsBody">
+                  <tr><td colspan="9" class="muted" style="text-align:center;padding:28px">No results yet</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <section class="card section-gap" id="explore">
+          <div class="card-hd">
+            <h3>Sample explorer</h3>
+          </div>
+          <div class="card-bd">
+            <div class="explorer-bar">
+              <div class="field">
+                <label for="sampleSelect">Select sample</label>
+                <select id="sampleSelect" disabled>
+                  <option value="">Run prediction first</option>
+                </select>
+              </div>
+              <button class="btn btn-secondary" id="btnExplain" type="button" disabled>Explain sample</button>
+            </div>
+
+            <div class="detail-panel" id="detailPanel">
+              <div class="detail-top">
+                <span class="tag" id="dState">—</span>
+                <strong id="dSample" style="color:var(--ink)"></strong>
+              </div>
+              <div class="detail-metrics">
+                <div class="metric"><div class="k">Confidence</div><div class="v" id="dConf">—</div></div>
+                <div class="metric"><div class="k">P(epithelial)</div><div class="v" id="dPe">—</div></div>
+                <div class="metric"><div class="k">P(hybrid)</div><div class="v" id="dPt">—</div></div>
+                <div class="metric"><div class="k">P(mesenchymal)</div><div class="v" id="dPm">—</div></div>
+              </div>
+            </div>
+
+            <div class="img-grid">
+              <div class="img-box" id="probBox">
+                <div class="placeholder">Class probabilities will appear here.</div>
+              </div>
+              <div class="img-box" id="shapBox">
+                <div class="placeholder">SHAP gene drivers will appear here.</div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </section>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <span>EMTaxis research interface</span>
+    <span>CSV · genes as rows · samples as columns</span>
+  </footer>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,83 @@
+{
+  "project": "EMTaxis",
+  "description": "EMT states from published Kohn E/M marker programs (2D rule); features from published Jechlinger EMT DN/UP signatures",
+  "n_samples": 1719,
+  "n_features": 388,
+  "classes": [
+    "epithelial",
+    "hybrid",
+    "mesenchymal"
+  ],
+  "label_definition": "KOHN_EMT_EPITHELIAL / KOHN_EMT_MESENCHYMAL; epithelial: E_z>=0 & M_z<0; mesenchymal: M_z>=0 & E_z<0; hybrid: else",
+  "features": "JECHLINGER EMT DN \u222a UP; no composite score feature",
+  "best_model": "XGBoost",
+  "results": {
+    "RandomForest": {
+      "Accuracy": 0.8924418604651163,
+      "Macro_F1": 0.8962572202537299,
+      "ROC_AUC_OvR": 0.9846116834934628,
+      "CV_Macro_F1_mean": 0.897239483814827,
+      "CV_Macro_F1_std": 0.024859819011276936
+    },
+    "XGBoost": {
+      "Accuracy": 0.9273255813953488,
+      "Macro_F1": 0.9296360263545065,
+      "ROC_AUC_OvR": 0.9878062371343491,
+      "CV_Macro_F1_mean": 0.9035994842413254,
+      "CV_Macro_F1_std": 0.027508973278359033
+    },
+    "SVM": {
+      "Accuracy": 0.9244186046511628,
+      "Macro_F1": 0.9267458060553445,
+      "ROC_AUC_OvR": 0.9922547434606619,
+      "CV_Macro_F1_mean": 0.9140358585729498,
+      "CV_Macro_F1_std": 0.018808325874276083
+    },
+    "LogisticRegression": {
+      "Accuracy": 0.8808139534883721,
+      "Macro_F1": 0.8836704859915864,
+      "ROC_AUC_OvR": 0.9733336468478502,
+      "CV_Macro_F1_mean": 0.8445592030291159,
+      "CV_Macro_F1_std": 0.014705387619366683
+    },
+    "MLP": {
+      "Accuracy": 0.9534883720930233,
+      "Macro_F1": 0.9547769547044141,
+      "ROC_AUC_OvR": 0.9977129786979276,
+      "CV_Macro_F1_mean": NaN,
+      "CV_Macro_F1_std": NaN
+    }
+  },
+  "marker_means_by_class": {
+    "CDH1": {
+      "epithelial": 6.542547294097872,
+      "hybrid": 2.720301982319736,
+      "mesenchymal": 1.0177427280690108
+    },
+    "EPCAM": {
+      "epithelial": 8.434475981702128,
+      "hybrid": 3.589620094847104,
+      "mesenchymal": 1.5547456690030386
+    },
+    "VIM": {
+      "epithelial": 3.4539611581402343,
+      "hybrid": 7.9173305913261425,
+      "mesenchymal": 11.122654188687063
+    },
+    "FN1": {
+      "epithelial": 4.639036197595745,
+      "hybrid": 5.314614648632812,
+      "mesenchymal": 9.86187953991684
+    },
+    "SNAI2": {
+      "epithelial": 2.021334841737752,
+      "hybrid": 2.622305759305494,
+      "mesenchymal": 4.802676746247084
+    },
+    "CDH2": {
+      "epithelial": 2.019557207413948,
+      "hybrid": 2.869720505815104,
+      "mesenchymal": 5.367218599892816
+    }
+  }
+}

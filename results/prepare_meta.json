@@ -1,0 +1,61 @@
+{
+  "project": "EMTaxis",
+  "expression_source": "DepMap OmicsExpressionTPMLogp1 (log2 TPM+1)",
+  "panel": "multi-GMT consensus EMT (build_gene_panel.py)",
+  "msigdb_release": "2023.2.Hs",
+  "n_E_source_sets": 9,
+  "n_M_source_sets": 12,
+  "epithelial_source_sets": [
+    "ALONSO_METASTASIS_EMT_DN",
+    "FOROUTAN_INTEGRATED_TGFB_EMT_DN",
+    "FOROUTAN_PRODRANK_TGFB_EMT_DN",
+    "FOROUTAN_TGFB_EMT_DN",
+    "GOTZMANN_EPITHELIAL_TO_MESENCHYMAL_TRANSITION_DN",
+    "HOLLERN_EMT_BREAST_TUMOR_DN",
+    "JECHLINGER_EPITHELIAL_TO_MESENCHYMAL_TRANSITION_DN",
+    "KOHN_EMT_EPITHELIAL",
+    "SARRIO_EPITHELIAL_MESENCHYMAL_TRANSITION_DN"
+  ],
+  "mesenchymal_source_sets": [
+    "ALONSO_METASTASIS_EMT_UP",
+    "FOROUTAN_INTEGRATED_TGFB_EMT_UP",
+    "FOROUTAN_PRODRANK_TGFB_EMT_UP",
+    "FOROUTAN_TGFB_EMT_UP",
+    "GOTZMANN_EPITHELIAL_TO_MESENCHYMAL_TRANSITION_UP",
+    "HALLMARK_EPITHELIAL_MESENCHYMAL_TRANSITION",
+    "HOLLERN_EMT_BREAST_TUMOR_UP",
+    "JECHLINGER_EPITHELIAL_TO_MESENCHYMAL_TRANSITION_UP",
+    "KOHN_EMT_MESENCHYMAL",
+    "REACTOME_EPITHELIAL_MESENCHYMAL_TRANSITION_EMT_DURING_GASTRULATION",
+    "REACTOME_TGF_BETA_RECEPTOR_SIGNALING_IN_EMT_EPITHELIAL_TO_MESENCHYMAL_TRANSITION",
+    "SARRIO_EPITHELIAL_MESENCHYMAL_TRANSITION_UP"
+  ],
+  "min_support": {
+    "E": 2,
+    "M": 2
+  },
+  "n_epithelial_matched": 144,
+  "n_mesenchymal_matched": 244,
+  "n_features": 388,
+  "n_samples": 1719,
+  "label_rule": "epithelial: E_z>=0 & M_z<0; mesenchymal: M_z>=0 & E_z<0; hybrid: else",
+  "class_counts": {
+    "hybrid": 768,
+    "mesenchymal": 481,
+    "epithelial": 470
+  },
+  "includes_recent": [
+    "FOROUTAN_INTEGRATED_TGFB_EMT_DN",
+    "FOROUTAN_PRODRANK_TGFB_EMT_DN",
+    "FOROUTAN_TGFB_EMT_DN",
+    "HOLLERN_EMT_BREAST_TUMOR_DN",
+    "FOROUTAN_INTEGRATED_TGFB_EMT_UP",
+    "FOROUTAN_PRODRANK_TGFB_EMT_UP",
+    "FOROUTAN_TGFB_EMT_UP",
+    "HALLMARK_EPITHELIAL_MESENCHYMAL_TRANSITION",
+    "HOLLERN_EMT_BREAST_TUMOR_UP",
+    "REACTOME_EPITHELIAL_MESENCHYMAL_TRANSITION_EMT_DURING_GASTRULATION",
+    "REACTOME_TGF_BETA_RECEPTOR_SIGNALING_IN_EMT_EPITHELIAL_TO_MESENCHYMAL_TRANSITION"
+  ],
+  "biology_note": "E and M programs are consensus genes recurrent across multiple published MSigDB EMT signatures (including Hallmark, Foroutan TGF-\u03b2 EMT, Hollern, Sarrio, Gotzmann, Kohn, Jechlinger, Reactome, WikiPathways). States use a 2D high/low program rule including hybrid/partial EMT."
+}
