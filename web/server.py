@@ -50,6 +50,12 @@ def index():
     return render_template("index.html")
 
 
+@app.route("/health")
+def health():
+    """Lightweight health check for Render / load balancers."""
+    return jsonify({"ok": True, "service": "EMTaxis"})
+
+
 @app.route("/api/predict", methods=["POST"])
 def predict():
     try:

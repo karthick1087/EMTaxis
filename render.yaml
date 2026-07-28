@@ -1,0 +1,19 @@
+# Render Blueprint — https://render.com/docs/blueprint-spec
+# Deploy: push this repo to GitHub, then New → Blueprint in the Render dashboard
+# and point it at the repo (or create a Web Service manually using the settings below).
+
+services:
+  - type: web
+    name: emtaxis
+    runtime: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn -w 1 -b 0.0.0.0:$PORT --timeout 180 --graceful-timeout 30 app:app
+    healthCheckPath: /health
+    envVars:
+      - key: PYTHON_VERSION
+        value: "3.11.9"
+      - key: EMTAXIS_SECRET_KEY
+        generateValue: true
+      - key: WEB_CONCURRENCY
+        value: "1"

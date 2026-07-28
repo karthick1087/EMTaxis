@@ -7,3 +7,4 @@ joblib>=1.2
 matplotlib>=3.6
 shap>=0.42
 werkzeug>=2.0
+gunicorn>=21.0
