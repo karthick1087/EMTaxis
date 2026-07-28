@@ -14,7 +14,7 @@ Local web app + trained model. Upload a gene-expression CSV and get:
 ## Quick start
 
 ```bash
-git clone https://github.com/<YOUR_USER>/EMTaxis.git
+git clone https://github.com/karthick1087/EMTaxis.git
 cd EMTaxis
 
 python3 -m venv .venv
